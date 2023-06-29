@@ -14,3 +14,9 @@ type FindUserParams = Partial<{
   id: number;
   email: string;
 }>;
+
+type CreateConversationParams = {
+  authorId: number;
+  recipientId: number;
+  message: string;
+}

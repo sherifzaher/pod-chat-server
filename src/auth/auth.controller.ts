@@ -1,7 +1,8 @@
 import {
   Body,
   Controller,
-  Get, HttpStatus,
+  Get,
+  HttpStatus,
   Inject,
   Post,
   Req,
@@ -15,7 +16,6 @@ import { Routes, Services } from '../utils/constants';
 import { AuthenticationGuard, LocalAuthGuard } from './utils/Guards';
 import { IAuthService } from './auth';
 import { CreateUserDto } from './dtos/createUser.dto';
-import { LoginUserDto } from './dtos/loginUser.dto';
 import { IUserService } from '../users/user';
 
 @Controller(Routes.AUTH)
