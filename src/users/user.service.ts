@@ -28,4 +28,10 @@ export class UserService implements IUserService {
     });
     return this.userRepository.save(createdUser);
   }
+
+  findUser(findUser: FindUserParams): Promise<User> {
+    return this.userRepository.findOne({
+      where: findUser,
+    });
+  }
 }

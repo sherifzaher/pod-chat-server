@@ -5,6 +5,7 @@ interface Env {
   MYSQL_DB_PASSWORD: string;
   MYSQL_DB_PORT: number;
   MYSQL_DB_DATABASE: string;
+  COOKIE_SECRET: string;
 }
 
 declare global {
