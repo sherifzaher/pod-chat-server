@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../utils/typeorm';
 import { Repository } from 'typeorm';
 import { hashPassword } from '../utils/helpers';
+import { CreateUserDetails, FindUserParams } from '../utils/types';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -32,6 +33,11 @@ export class UserService implements IUserService {
   findUser(findUser: FindUserParams): Promise<User> {
     return this.userRepository.findOne({
       where: findUser,
+      relations: ['participant'],
     });
+  }
+
+  async saveUser(user: User) {
+    return this.userRepository.save(user);
   }
 }

@@ -1,8 +1,10 @@
-import {Body, Controller, Inject, Post, UseGuards} from '@nestjs/common';
+import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
 import { Routes, Services } from '../utils/constants';
 import { AuthenticationGuard } from '../auth/utils/Guards';
 import { IConversationsService } from './conversations';
-import {CreateConversationDto} from "./dtos/createConversation.dto";
+import { CreateConversationDto } from './dtos/createConversation.dto';
+import { AuthUser } from '../utils/decorators';
+import { User } from '../utils/typeorm';
 
 @Controller(Routes.CONVERSATIONS)
 @UseGuards(AuthenticationGuard)
@@ -12,7 +14,13 @@ export class ConversationsController {
     private readonly conversationsService: IConversationsService,
   ) {}
   @Post()
-  createConversation(@Body() createConversationDto: CreateConversationDto) {
-    this.conversationsService.createConversation(createConversationDto);
+  async createConversation(
+    @AuthUser() user: User,
+    @Body() createConversationDto: CreateConversationDto,
+  ) {
+    return this.conversationsService.createConversation(
+      user,
+      createConversationDto,
+    );
   }
 }

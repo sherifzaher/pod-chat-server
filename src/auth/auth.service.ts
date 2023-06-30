@@ -3,6 +3,7 @@ import { IAuthService } from './auth';
 import { Services } from '../utils/constants';
 import { IUserService } from '../users/user';
 import { compareHash } from '../utils/helpers';
+import { ValidateUserDetails } from '../utils/types';
 
 @Injectable()
 export class AuthService implements IAuthService {
