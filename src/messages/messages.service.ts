@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IMessageService } from './message';
-import {Conversation, Message, User} from '../utils/typeorm';
+import { Conversation, Message, User } from '../utils/typeorm';
 import { CreateMessageParams } from '../utils/types';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -38,15 +38,15 @@ export class MessagesService implements IMessageService {
       throw new HttpException('Cannot create message', HttpStatus.FORBIDDEN);
     }
 
-    conversation.recipient = instanceToPlain(conversation.recipient) as User;
-    conversation.creator = instanceToPlain(conversation.creator) as User;
-
     const newMessage = this.messageRepository.create({
       content,
       conversation,
       author: instanceToPlain(user),
     });
 
-    return this.messageRepository.save(newMessage);
+    const savedMessage = await this.messageRepository.save(newMessage);
+    conversation.lastMessageSent = savedMessage;
+    await this.conversationRepository.save(conversation);
+    return;
   }
 }
