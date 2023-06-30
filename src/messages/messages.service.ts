@@ -49,4 +49,18 @@ export class MessagesService implements IMessageService {
     await this.conversationRepository.save(conversation);
     return;
   }
+
+  getMessagesByConversationId(conversationId: number): Promise<Message[]> {
+    return this.messageRepository.find({
+      where: {
+        conversation: {
+          id: conversationId,
+        },
+      },
+      relations: ['author'],
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+  }
 }
