@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { ConversationsModule } from './conversations/conversations.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
+import { MessagesModule } from './messages/messages.module';
 import entities from './utils/typeorm';
 
 @Module({
@@ -12,6 +13,7 @@ import entities from './utils/typeorm';
     AuthModule,
     UsersModule,
     ConversationsModule,
+    MessagesModule,
     ConfigModule.forRoot({ envFilePath: '.env.development' }),
     PassportModule.register({ session: true }),
     TypeOrmModule.forRoot({
