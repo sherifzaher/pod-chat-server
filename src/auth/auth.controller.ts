@@ -39,7 +39,7 @@ export class AuthController {
   @Get('status')
   @UseGuards(AuthenticationGuard)
   status(@Req() req: Request, @Res() res: Response) {
-    res.send(req.user);
+    res.json(instanceToPlain(req.user));
   }
 
   @Post('logout')

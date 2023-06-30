@@ -1,5 +1,6 @@
-import { Entity, ManyToMany, PrimaryGeneratedColumn, JoinTable } from 'typeorm';
+import {Entity, ManyToMany, PrimaryGeneratedColumn, JoinTable, OneToOne} from 'typeorm';
 import { Conversation } from './Conversation';
+import {User} from "./User";
 
 @Entity({ name: 'participants' })
 export class Participant {
@@ -9,4 +10,7 @@ export class Participant {
   @ManyToMany(() => Conversation, (conversation) => conversation.participants)
   @JoinTable()
   conversations: Conversation[];
+
+  @OneToOne(() => User, (user) => user.participant)
+  user: User;
 }
