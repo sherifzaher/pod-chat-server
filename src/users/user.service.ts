@@ -31,10 +31,7 @@ export class UserService implements IUserService {
   }
 
   findUser(findUser: FindUserParams): Promise<User> {
-    return this.userRepository.findOne({
-      where: findUser,
-      relations: ['participant'],
-    });
+    return this.userRepository.findOne(findUser);
   }
 
   async saveUser(user: User) {

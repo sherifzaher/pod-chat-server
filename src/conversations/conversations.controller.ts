@@ -12,7 +12,7 @@ import { AuthenticationGuard } from '../auth/utils/Guards';
 import { IConversationsService } from './conversations';
 import { CreateConversationDto } from './dtos/createConversation.dto';
 import { AuthUser } from '../utils/decorators';
-import { Participant, User } from '../utils/typeorm';
+import { User } from '../utils/typeorm';
 
 @Controller(Routes.CONVERSATIONS)
 @UseGuards(AuthenticationGuard)
@@ -33,18 +33,12 @@ export class ConversationsController {
   }
 
   @Get()
-  async getConversations(@AuthUser() user: User) {
-    const { id } = user.participant;
-    const participant: Participant = await this.conversationsService.find(id);
-    return participant.conversations.map((conversation) => ({
-      ...conversation,
-      recipient: conversation.participants.find((p) => p.user.id !== user.id),
-    }));
+  async getConversations(@AuthUser() { id }: User) {
+    return this.conversationsService.getConversations(id);
   }
 
   @Get(':id')
   getConversationById(@Param('id') id: number) {
-    console.log(id);
     return this.conversationsService.findConversationById(id);
   }
 }
