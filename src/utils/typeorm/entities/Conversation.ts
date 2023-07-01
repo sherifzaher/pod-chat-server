@@ -1,11 +1,11 @@
 import {
-  Column,
+  Column, CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User';
 import { Message } from './Message';
@@ -28,8 +28,11 @@ export class Conversation {
   @JoinColumn()
   messages: Message[];
 
-  @Column({ name: 'created_at' })
-  createdAt: number;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 
   @OneToOne(() => Message)
   @JoinColumn({ name: 'last_message_sent' })

@@ -6,7 +6,9 @@ import { ConversationsModule } from './conversations/conversations.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { MessagesModule } from './messages/messages.module';
+import { GatewayModule } from './gateway/gateway.module';
 import entities from './utils/typeorm';
+import {EventEmitterModule} from "@nestjs/event-emitter";
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import entities from './utils/typeorm';
     UsersModule,
     ConversationsModule,
     MessagesModule,
+    GatewayModule,
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ envFilePath: '.env.development' }),
     PassportModule.register({ session: true }),
     TypeOrmModule.forRoot({
