@@ -1,17 +1,20 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as session from 'express-session';
 import * as passport from 'passport';
-import { Session } from './utils/typeorm';
 import { TypeormStore } from 'connect-typeorm';
 import { getRepository } from 'typeorm';
+import { AppModule } from './app.module';
+import { Session } from './utils/typeorm';
+import { WebsocketAdapter } from './gateway/gateway.adapter';
 
 async function bootstrap() {
   const { PORT, COOKIE_SECRET } = process.env;
   const app = await NestFactory.create(AppModule);
   const sessionRepository = getRepository(Session);
+  const adapter = new WebsocketAdapter(app);
+  app.useWebSocketAdapter(adapter);
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({ origin: ['http://localhost:3000'], credentials: true });
   app.setGlobalPrefix('api');
@@ -19,6 +22,7 @@ async function bootstrap() {
     session({
       secret: COOKIE_SECRET,
       saveUninitialized: false,
+      name: 'POD_CHAT_SESSION_ID',
       resave: false,
       cookie: {
         maxAge: 60000 * 60 * 24, // cookie expires after 1 day.
