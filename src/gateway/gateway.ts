@@ -44,11 +44,11 @@ export class MessagingGateway implements OnGatewayConnection {
       author,
       conversation: { creator, recipient },
     } = payload;
-    const authorSocket = this.sessions.getSockedId(author.id);
+    const authorSocket = this.sessions.getSocketId(author.id);
     const recipientSocket =
       author.id === creator.id
-        ? this.sessions.getSockedId(recipient.id)
-        : this.sessions.getSockedId(creator.id);
+        ? this.sessions.getSocketId(recipient.id)
+        : this.sessions.getSocketId(creator.id);
 
     recipientSocket?.emit('onMessage', payload);
     authorSocket.emit('onMessage', payload);
