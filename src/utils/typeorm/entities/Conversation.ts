@@ -31,10 +31,10 @@ export class Conversation {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
-
   @OneToOne(() => Message)
   @JoinColumn({ name: 'last_message_sent' })
   lastMessageSent: Message;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  lastMessageSentAt: Date;
 }

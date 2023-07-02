@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IMessageService } from './message';
 import { Conversation, Message, User } from '../utils/typeorm';
-import { CreateMessageParams } from '../utils/types';
+import { CreateMessageParams, CreateMessageResponse } from '../utils/types';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { instanceToPlain } from 'class-transformer';
@@ -18,12 +18,12 @@ export class MessagesService implements IMessageService {
     user,
     conversationId,
     content,
-  }: CreateMessageParams): Promise<Message> {
+  }: CreateMessageParams): Promise<CreateMessageResponse> {
     const conversation = await this.conversationRepository.findOne(
       {
         id: conversationId,
       },
-      { relations: ['creator', 'recipient'] },
+      { relations: ['creator', 'recipient', 'lastMessageSent'] },
     );
     console.log(conversation);
 
@@ -46,8 +46,13 @@ export class MessagesService implements IMessageService {
 
     const savedMessage = await this.messageRepository.save(newMessage);
     conversation.lastMessageSent = savedMessage;
-    await this.conversationRepository.save(conversation);
-    return savedMessage;
+    const updateConversation = await this.conversationRepository.save(
+      conversation,
+    );
+    return {
+      message: savedMessage,
+      conversation: updateConversation,
+    };
   }
 
   getMessagesByConversationId(conversationId: number): Promise<Message[]> {

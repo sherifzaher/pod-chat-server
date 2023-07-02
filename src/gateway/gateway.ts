@@ -12,6 +12,7 @@ import { Inject } from '@nestjs/common';
 import { Services } from '../utils/constants';
 import { IGatewaySession } from './gateway.session';
 import { Message } from '../utils/typeorm';
+import {CreateMessageResponse} from "../utils/types";
 
 @WebSocketGateway({
   cors: {
@@ -39,11 +40,11 @@ export class MessagingGateway implements OnGatewayConnection {
   }
 
   @OnEvent('message.create')
-  handleMessageCreateEvent(payload: Message) {
+  handleMessageCreateEvent(payload: CreateMessageResponse) {
     const {
       author,
       conversation: { creator, recipient },
-    } = payload;
+    } = payload.message;
     const authorSocket = this.sessions.getSocketId(author.id);
     const recipientSocket =
       author.id === creator.id
