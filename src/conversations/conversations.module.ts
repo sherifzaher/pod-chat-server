@@ -7,12 +7,15 @@ import { Conversation } from '../utils/typeorm';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  imports: [
-    UsersModule,
-    TypeOrmModule.forFeature([Conversation]),
-  ],
+  imports: [UsersModule, TypeOrmModule.forFeature([Conversation])],
   controllers: [ConversationsController],
   providers: [
+    {
+      provide: Services.CONVERSATIONS,
+      useClass: ConversationsService,
+    },
+  ],
+  exports: [
     {
       provide: Services.CONVERSATIONS,
       useClass: ConversationsService,
