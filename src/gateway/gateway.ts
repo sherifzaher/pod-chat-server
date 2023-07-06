@@ -13,7 +13,7 @@ import { Inject } from '@nestjs/common';
 import { Services } from '../utils/constants';
 import { IGatewaySession } from './gateway.session';
 import { Conversation, Message } from '../utils/typeorm';
-import { CreateMessageResponse } from '../utils/types';
+import { CreateMessageResponse, DeleteMessageParams } from '../utils/types';
 import { IConversationsService } from '../conversations/conversations';
 
 @WebSocketGateway({
@@ -74,5 +74,20 @@ export class MessagingGateway implements OnGatewayConnection {
   handleCreateConversation(payload: Conversation) {
     const recipientSocket = this.sessions.getSocketId(payload.recipient.id);
     recipientSocket?.emit('onConversation', payload);
+  }
+
+  @OnEvent('message.delete')
+  async handleDeleteMessage(payload: DeleteMessageParams) {
+    const conversation = await this.conversationService.findConversationById(
+      payload.conversationId,
+    );
+    if (!conversation) return;
+
+    const { creator, recipient } = conversation;
+    const otherSocket =
+      creator.id === payload.userId
+        ? this.sessions.getSocketId(recipient.id)
+        : this.sessions.getSocketId(creator.id);
+    otherSocket?.emit('onMessageDelete', payload);
   }
 }

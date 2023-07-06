@@ -80,7 +80,9 @@ export class MessagesService implements IMessageService {
       .where('id = :conversationId', { conversationId: params.conversationId })
       .leftJoinAndSelect('conversation.lastMessageSent', 'lastMessageSent')
       .leftJoinAndSelect('conversation.messages', 'message')
-      .where('conversation.id = message.conversationId')
+      .where('conversation.id = :conversationId', {
+        conversationId: params.conversationId,
+      })
       .orderBy('message.createdAt', 'DESC')
       .limit(5)
       .getOne();
