@@ -106,9 +106,14 @@ export class MessagesService implements IMessageService {
     const SECOND_MESSAGE_INDEX = 1;
     if (arrSize <= 1) {
       console.log('Deleting the last message');
-      await this.conversationRepository.update(conversation, {
-        lastMessageSent: null,
-      });
+      await this.conversationRepository.update(
+        {
+          id: conversation.id,
+        },
+        {
+          lastMessageSent: null,
+        },
+      );
       await this.messageRepository.delete({ id: message.id });
     } else {
       console.log('There are more than 1 message');
