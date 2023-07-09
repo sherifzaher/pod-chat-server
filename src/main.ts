@@ -16,7 +16,10 @@ async function bootstrap() {
   const adapter = new WebsocketAdapter(app);
   app.useWebSocketAdapter(adapter);
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors({ origin: ['http://localhost:3000'], credentials: true });
+  app.enableCors({
+    origin: ['http://localhost:3000', 'http://192.168.1.4:3000'],
+    credentials: true,
+  });
   app.setGlobalPrefix('api');
   app.use(
     session({
