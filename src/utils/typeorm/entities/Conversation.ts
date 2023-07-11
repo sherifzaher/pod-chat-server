@@ -1,11 +1,13 @@
 import {
-  Column, CreateDateColumn,
+  Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './User';
 import { Message } from './Message';
@@ -24,7 +26,9 @@ export class Conversation {
   @JoinColumn()
   recipient: User;
 
-  @OneToMany(() => Message, (message) => message.conversation, { cascade: ['insert', 'remove', 'update'] })
+  @OneToMany(() => Message, (message) => message.conversation, {
+    cascade: ['insert', 'remove', 'update'],
+  })
   @JoinColumn()
   messages: Message[];
 

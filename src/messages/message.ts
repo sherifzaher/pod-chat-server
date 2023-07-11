@@ -2,7 +2,8 @@ import { Message } from '../utils/typeorm';
 import {
   CreateMessageParams,
   CreateMessageResponse,
-  DeleteMessageParams, EditMessageParams,
+  DeleteMessageParams,
+  EditMessageParams,
 } from '../utils/types';
 
 export interface IMessageService {

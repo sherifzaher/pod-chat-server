@@ -83,11 +83,14 @@ export class MessagesController {
     @Param('messageId') messageId: number,
     @Body() editMessageDto: EditMessageDto,
   ) {
-    return await this.messageService.editMessage({
+    const message = await this.messageService.editMessage({
       ...editMessageDto,
       conversationId,
       messageId,
       userId: user.id,
     });
+
+    this.eventEmitter.emit('message.update', message);
+    return message;
   }
 }

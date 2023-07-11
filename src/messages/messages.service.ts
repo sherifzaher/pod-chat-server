@@ -141,14 +141,21 @@ export class MessagesService implements IMessageService {
         id: params.messageId,
         author: { id: params.userId },
       },
-      { relations: ['author'] },
+      {
+        relations: [
+          'author',
+          'conversation',
+          'conversation.creator',
+          'conversation.recipient',
+        ],
+      },
     );
 
     if (!messageDB) {
       throw new HttpException('Cannot Edit Message', HttpStatus.BAD_REQUEST);
     }
-
     messageDB.content = params.content;
-    return this.messageRepository.save(messageDB);
+
+    return await this.messageRepository.save(messageDB);
   }
 }

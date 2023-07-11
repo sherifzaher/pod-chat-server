@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -13,7 +14,7 @@ import { IConversationsService } from './conversations';
 import { CreateConversationDto } from './dtos/createConversation.dto';
 import { AuthUser } from '../utils/decorators';
 import { User } from '../utils/typeorm';
-import {EventEmitter2} from "@nestjs/event-emitter";
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Controller(Routes.CONVERSATIONS)
 @UseGuards(AuthenticationGuard)
