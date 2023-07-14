@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Message } from './Message';
-import { GroupConversation } from './GroupConversation';
+import { Group } from './Group';
 
 @Entity({ name: 'users' })
 export class User {
@@ -32,9 +32,6 @@ export class User {
   @JoinColumn()
   messages: Message[];
 
-  @ManyToMany(
-    () => GroupConversation,
-    (groupConversation) => groupConversation.users,
-  )
-  groups: GroupConversation[];
+  @ManyToMany(() => Group, (groupConversation) => groupConversation.users)
+  groups: Group[];
 }

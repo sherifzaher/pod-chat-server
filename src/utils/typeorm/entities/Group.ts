@@ -9,8 +9,8 @@ import {
 import { User } from './User';
 import { Message } from './Message';
 
-@Entity({ name: 'group_conversation' })
-export class GroupConversation {
+@Entity({ name: 'groups' })
+export class Group {
   @PrimaryGeneratedColumn()
   id: number;
 
