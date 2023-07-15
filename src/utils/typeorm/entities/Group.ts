@@ -1,8 +1,12 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -17,10 +21,18 @@ export class Group {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: number;
 
+  @Column({ nullable: true })
+  title?: string;
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  creator: User;
+
   @ManyToMany(() => User, (user) => user.groups)
+  @JoinTable()
   users: User[];
 
-  @OneToMany(() => Message, (message) => message.conversation, {
+  @OneToMany(() => Message, (message) => message.group, {
     cascade: ['insert', 'remove', 'update'],
   })
   messages: Message[];

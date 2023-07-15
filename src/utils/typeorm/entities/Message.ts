@@ -26,6 +26,6 @@ export class Message {
   @ManyToOne(() => Conversation, (conversations) => conversations.messages)
   conversation: Conversation;
 
-  @ManyToOne(() => Group, (groupConversation) => groupConversation.messages)
+  @ManyToOne(() => Group, (group) => group.messages)
   group?: Group;
 }
