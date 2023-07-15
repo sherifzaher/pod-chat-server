@@ -33,6 +33,9 @@ export class WebsocketAdapter extends IoAdapter {
       }
 
       const session = await sessionRepository.findOne({ id: signedCookie });
+
+      if (!session?.json) return next(new Error('Not Found user'));
+
       socket.user = plainToInstance(
         User,
         JSON.parse(session.json).passport.user,

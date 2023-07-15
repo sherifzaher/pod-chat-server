@@ -3,7 +3,7 @@ import { IGroupService } from './group';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from '../utils/typeorm';
 import { Repository } from 'typeorm';
-import { CreateGroupParams } from '../utils/types';
+import { CreateGroupParams, FetchGroupParams } from '../utils/types';
 import { Services } from '../utils/constants';
 import { IUserService } from '../users/user';
 
@@ -25,5 +25,14 @@ export class GroupService implements IGroupService {
     console.log(users);
     const group = this.groupRepository.create({ users, creator, title });
     return this.groupRepository.save(group);
+  }
+
+  getGroups(params: FetchGroupParams): Promise<Group[]> {
+    return this.groupRepository
+      .createQueryBuilder('group')
+      .leftJoinAndSelect('group.creator', 'creator')
+      .leftJoinAndSelect('group.users', 'user')
+      .where('user.id  IN (:users)', { users: [params.userId] })
+      .getMany();
   }
 }

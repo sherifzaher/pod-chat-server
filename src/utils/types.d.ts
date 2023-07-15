@@ -55,3 +55,7 @@ export type CreateGroupParams = {
   title?: string;
   users: string[];
 };
+
+export type FetchGroupParams = {
+  userId: number;
+};

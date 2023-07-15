@@ -24,7 +24,7 @@ export class Group {
   @Column({ nullable: true })
   title?: string;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { createForeignKeyConstraints: false })
   @JoinColumn()
   creator: User;
 
@@ -35,6 +35,7 @@ export class Group {
   @OneToMany(() => Message, (message) => message.group, {
     cascade: ['insert', 'remove', 'update'],
   })
+  @JoinColumn()
   messages: Message[];
 
   @UpdateDateColumn({ name: 'updated_at' })
