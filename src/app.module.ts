@@ -10,6 +10,7 @@ import { GatewayModule } from './gateway/gateway.module';
 import entities from './utils/typeorm';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GroupModule } from './groups/group.module';
+import { GroupMessageModule } from './group-messages/group-message.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GroupModule } from './groups/group.module';
     GatewayModule,
     EventEmitterModule.forRoot(),
     GroupModule,
+    GroupMessageModule,
     ConfigModule.forRoot({ envFilePath: '.env.development' }),
     PassportModule.register({ session: true }),
     TypeOrmModule.forRoot({
