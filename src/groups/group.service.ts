@@ -35,4 +35,11 @@ export class GroupService implements IGroupService {
       .where('user.id  IN (:users)', { users: [params.userId] })
       .getMany();
   }
+
+  getGroupById(id: number): Promise<Group> {
+    return this.groupRepository.findOne(
+      { id },
+      { relations: ['creator', 'users', 'lastMessageSent', 'messages'] },
+    );
+  }
 }

@@ -4,4 +4,5 @@ import { CreateGroupParams, FetchGroupParams } from '../utils/types';
 export interface IGroupService {
   createGroup(params: CreateGroupParams): Promise<Group>;
   getGroups(params: FetchGroupParams): Promise<Group[]>;
+  getGroupById(id: number): Promise<Group>;
 }

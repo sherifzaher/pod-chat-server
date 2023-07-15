@@ -38,6 +38,10 @@ export class Group {
   @JoinColumn()
   messages: Message[];
 
+  @OneToOne(() => Message)
+  @JoinColumn({ name: 'last_message_sent' })
+  lastMessageSent: Message;
+
   @UpdateDateColumn({ name: 'updated_at' })
   lastMessageSentAt: Date;
 }
