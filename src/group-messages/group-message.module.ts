@@ -3,10 +3,11 @@ import { GroupMessageService } from './group-message.service';
 import { GroupMessageController } from './group-message.controller';
 import { Services } from '../utils/constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Message } from '../utils/typeorm';
+import { GroupMessage } from '../utils/typeorm';
+import { GroupModule } from '../groups/group.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Message])],
+  imports: [TypeOrmModule.forFeature([GroupMessage]), GroupModule],
   controllers: [GroupMessageController],
   providers: [
     {

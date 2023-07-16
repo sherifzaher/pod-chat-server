@@ -39,6 +39,6 @@ export class GroupController {
 
   @Get(':id')
   getGroup(@AuthUser() user: User, @Param('id') groupId: number) {
-    return this.groupService.getGroupById(groupId);
+    return this.groupService.findGroupById(groupId);
   }
 }
