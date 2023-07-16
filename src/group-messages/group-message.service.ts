@@ -38,6 +38,8 @@ export class GroupMessageService implements IGroupMessageService {
     );
     group.lastMessageSent = saveGroupMessage;
 
-    return this.groupService.saveGroup(group);
+    const updatedGroup = await this.groupService.saveGroup(group);
+
+    return { message: saveGroupMessage, group: updatedGroup };
   }
 }
