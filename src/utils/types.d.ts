@@ -70,3 +70,7 @@ export type CreateGroupMessageResponse = {
   message: GroupMessage;
   group: Group;
 };
+
+export type FindUserOptions = Partial<{
+  selectAll: boolean;
+}>;

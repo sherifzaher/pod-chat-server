@@ -4,7 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../utils/typeorm';
 import { Repository } from 'typeorm';
 import { hashPassword } from '../utils/helpers';
-import { CreateUserDetails, FindUserParams } from '../utils/types';
+import {
+  CreateUserDetails,
+  FindUserOptions,
+  FindUserParams,
+} from '../utils/types';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -30,8 +34,12 @@ export class UserService implements IUserService {
     return this.userRepository.save(createdUser);
   }
 
-  findUser(findUser: FindUserParams): Promise<User> {
-    return this.userRepository.findOne(findUser);
+  findUser(findUser: FindUserParams, options?: FindUserOptions): Promise<User> {
+    const selection: (keyof User)[] = ['email', 'firstName', 'lastName', 'id'];
+    const selectionWithPassword: (keyof User)[] = [...selection, 'password'];
+    return this.userRepository.findOne(findUser, {
+      select: options?.selectAll ? selectionWithPassword : selection,
+    });
   }
 
   async saveUser(user: User) {
