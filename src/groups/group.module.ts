@@ -20,6 +20,6 @@ import { Group } from '../utils/typeorm';
       provide: Services.GROUPS_SERVICE,
       useClass: GroupService,
     },
-  ]
+  ],
 })
 export class GroupModule {}

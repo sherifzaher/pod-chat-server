@@ -13,7 +13,11 @@ import { Inject } from '@nestjs/common';
 import { Services } from '../utils/constants';
 import { IGatewaySession } from './gateway.session';
 import { Conversation, Message } from '../utils/typeorm';
-import {CreateGroupMessageResponse, CreateMessageResponse, DeleteMessageParams} from '../utils/types';
+import {
+  CreateGroupMessageResponse,
+  CreateMessageResponse,
+  DeleteMessageParams,
+} from '../utils/types';
 import { IConversationsService } from '../conversations/conversations';
 
 @WebSocketGateway({
@@ -74,7 +78,7 @@ export class MessagingGateway implements OnGatewayConnection {
     console.log(data.conversationId);
     console.log(client.rooms);
     client.to(`conversation-${data.conversationId}`).emit('onTypingStart');
-    // this.server.to(data.conversationId).emit('onTypingStart');
+    // this.api.to(data.conversationId).emit('onTypingStart');
   }
 
   @SubscribeMessage('onTypingStop')
@@ -86,7 +90,7 @@ export class MessagingGateway implements OnGatewayConnection {
     console.log(data.conversationId);
     console.log(client.rooms);
     client.to(`conversation-${data.conversationId}`).emit('onTypingStop');
-    // this.server.to(data.conversationId).emit('onTypingStop');
+    // this.api.to(data.conversationId).emit('onTypingStop');
   }
 
   @OnEvent('message.create')
@@ -142,7 +146,5 @@ export class MessagingGateway implements OnGatewayConnection {
   }
 
   @OnEvent('group.message.create')
-  async handleGroupMessageCreate(payload: CreateGroupMessageResponse){
-
-  }
+  async handleGroupMessageCreate(payload: CreateGroupMessageResponse) {}
 }
