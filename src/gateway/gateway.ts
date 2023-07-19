@@ -41,12 +41,6 @@ export class MessagingGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('createMessage')
-  handleCreateMessage(@MessageBody() data: any) {
-    // console.log(data);
-    // console.log('Create Message');
-  }
-
   @SubscribeMessage('onConversationJoin')
   onConversationJoin(
     @MessageBody() data: any,
@@ -67,6 +61,28 @@ export class MessagingGateway implements OnGatewayConnection {
     client.leave(`conversation-${data.conversationId}`);
     console.log(client.rooms);
     client.to(`conversation-${data.conversationId}`).emit('userLeave');
+  }
+
+  @SubscribeMessage('onGroupJoin')
+  onGroupJoin(
+    @MessageBody() data: any,
+    @ConnectedSocket() client: AuthenticatedSocket,
+  ) {
+    console.log('onGroupJoin');
+    client.join(`group-${data.groupId}`);
+    console.log(client.rooms);
+    client.to(`group-${data.groupId}`).emit('userGroupJoin');
+  }
+
+  @SubscribeMessage('onGroupLeave')
+  onGroupLeave(
+    @MessageBody() data: any,
+    @ConnectedSocket() client: AuthenticatedSocket,
+  ) {
+    console.log('onGroupLeave');
+    client.leave(`group-${data.groupId}`);
+    console.log(client.rooms);
+    client.to(`group-${data.groupId}`).emit('userGroupLeave');
   }
 
   @SubscribeMessage('onTypingStart')
@@ -146,5 +162,9 @@ export class MessagingGateway implements OnGatewayConnection {
   }
 
   @OnEvent('group.message.create')
-  async handleGroupMessageCreate(payload: CreateGroupMessageResponse) {}
+  async handleGroupMessageCreate(payload: CreateGroupMessageResponse) {
+    const { id } = payload.group;
+    console.log('Inside group.message.create');
+    this.server.to(`group-${id}`).emit('onGroupMessage', payload);
+  }
 }
