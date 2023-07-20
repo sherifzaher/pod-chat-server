@@ -12,7 +12,7 @@ export class ConversationsService implements IConversationsService {
   constructor(
     @InjectRepository(Conversation)
     private readonly conversationRepository: Repository<Conversation>,
-    @Inject(Services.USER)
+    @Inject(Services.USERS)
     private readonly userService: IUserService,
   ) {}
 

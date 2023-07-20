@@ -12,7 +12,7 @@ export class GroupService implements IGroupService {
   constructor(
     @InjectRepository(Group)
     private readonly groupRepository: Repository<Group>,
-    @Inject(Services.USER)
+    @Inject(Services.USERS)
     private readonly userServices: IUserService,
   ) {}
   async createGroup(params: CreateGroupParams) {

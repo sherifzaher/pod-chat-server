@@ -9,14 +9,14 @@ import { User } from '../utils/typeorm';
   imports: [TypeOrmModule.forFeature([User])],
   providers: [
     {
-      provide: Services.USER,
+      provide: Services.USERS,
       useClass: UserService,
     },
   ],
   controllers: [UserController],
   exports: [
     {
-      provide: Services.USER,
+      provide: Services.USERS,
       useClass: UserService,
     },
   ],

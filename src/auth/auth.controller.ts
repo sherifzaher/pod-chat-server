@@ -22,7 +22,7 @@ import { IUserService } from '../users/user';
 export class AuthController {
   constructor(
     @Inject(Services.AUTH) private authService: IAuthService,
-    @Inject(Services.USER) private userService: IUserService,
+    @Inject(Services.USERS) private userService: IUserService,
   ) {}
 
   @Post('register')

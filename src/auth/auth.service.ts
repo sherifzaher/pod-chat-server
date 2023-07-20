@@ -8,7 +8,7 @@ import { ValidateUserDetails } from '../utils/types';
 @Injectable()
 export class AuthService implements IAuthService {
   constructor(
-    @Inject(Services.USER) private readonly userService: IUserService,
+    @Inject(Services.USERS) private readonly userService: IUserService,
   ) {}
   async validateUser(userDetails: ValidateUserDetails) {
     const user = await this.userService.findUser({ email: userDetails.email }, { selectAll: true });
