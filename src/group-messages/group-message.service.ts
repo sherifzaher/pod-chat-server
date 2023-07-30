@@ -1,15 +1,16 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { instanceToPlain } from 'class-transformer';
 import { IGroupMessageService } from './group-message';
 import { IGroupService } from '../groups/group';
 import { Group, GroupMessage } from '../utils/typeorm';
 import {
   CreateGroupMessageParams,
   DeleteGroupMessageParams,
+  EditGroupMessageParams,
 } from '../utils/types';
 import { Services } from '../utils/constants';
-import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class GroupMessageService implements IGroupMessageService {
@@ -111,5 +112,24 @@ export class GroupMessageService implements IGroupMessageService {
       );
       await this.groupMessageRepository.delete({ id: message.id });
     }
+  }
+
+  async editGroupMessage(params: EditGroupMessageParams) {
+    const messageDB = await this.groupMessageRepository.findOne(
+      {
+        id: params.messageId,
+        author: { id: params.userId },
+      },
+      {
+        relations: ['author', 'group', 'group.creator', 'group.users'],
+      },
+    );
+
+    if (!messageDB) {
+      throw new HttpException('Cannot Edit Message', HttpStatus.BAD_REQUEST);
+    }
+    messageDB.content = params.content;
+
+    return await this.groupMessageRepository.save(messageDB);
   }
 }

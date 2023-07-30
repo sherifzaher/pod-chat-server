@@ -79,4 +79,11 @@ export type DeleteGroupMessageParams = {
   userId: number;
   groupId: number;
   messageId: number;
-}
+};
+
+export type EditGroupMessageParams = {
+  groupId: number;
+  userId: number;
+  content: string;
+  messageId: number;
+};
