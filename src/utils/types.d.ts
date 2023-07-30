@@ -74,3 +74,9 @@ export type CreateGroupMessageResponse = {
 export type FindUserOptions = Partial<{
   selectAll: boolean;
 }>;
+
+export type DeleteGroupMessageParams = {
+  userId: number;
+  groupId: number;
+  messageId: number;
+}
