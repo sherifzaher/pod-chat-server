@@ -12,7 +12,7 @@ import { AuthenticatedSocket } from '../utils/interfaces';
 import { Inject } from '@nestjs/common';
 import { Services } from '../utils/constants';
 import { IGatewaySession } from './gateway.session';
-import { Conversation, Message } from '../utils/typeorm';
+import { Conversation, Group, Message } from '../utils/typeorm';
 import {
   CreateGroupMessageResponse,
   CreateMessageResponse,
@@ -22,7 +22,7 @@ import { IConversationsService } from '../conversations/conversations';
 
 @WebSocketGateway({
   cors: {
-    origin: ['http://localhost:3000', 'http://192.168.1.4:3000'],
+    origin: ['http://localhost:3000', 'http://192.168.1.3:3000'],
     credentials: true,
   },
 })
@@ -166,5 +166,14 @@ export class MessagingGateway implements OnGatewayConnection {
     const { id } = payload.group;
     console.log('Inside group.message.create');
     this.server.to(`group-${id}`).emit('onGroupMessage', payload);
+  }
+
+  @OnEvent('group.create')
+  handleGroupCreate(payload: Group) {
+    console.log('group.create.event');
+    payload.users.forEach((user) => {
+      const userSocket = this.sessions.getSocketId(user.id);
+      userSocket && userSocket.emit('onGroupCreate', payload);
+    });
   }
 }
