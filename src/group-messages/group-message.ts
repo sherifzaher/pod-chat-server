@@ -1,6 +1,7 @@
 import {
   CreateGroupMessageParams,
-  DeleteGroupMessageParams, EditGroupMessageParams,
+  DeleteGroupMessageParams,
+  EditGroupMessageParams,
 } from '../utils/types';
 import { GroupMessage } from '../utils/typeorm';
 

@@ -12,7 +12,7 @@ import { AuthenticatedSocket } from '../utils/interfaces';
 import { Inject } from '@nestjs/common';
 import { Services } from '../utils/constants';
 import { IGatewaySession } from './gateway.session';
-import { Conversation, Group, Message } from '../utils/typeorm';
+import { Conversation, Group, GroupMessage, Message } from '../utils/typeorm';
 import {
   CreateGroupMessageResponse,
   CreateMessageResponse,
@@ -175,5 +175,12 @@ export class MessagingGateway implements OnGatewayConnection {
       const userSocket = this.sessions.getSocketId(user.id);
       userSocket && userSocket.emit('onGroupCreate', payload);
     });
+  }
+
+  @OnEvent('group.message.update')
+  handleGroupMessageUpdate(payload: GroupMessage) {
+    console.log('group.message.update Emitted');
+    const room = `group-${payload.group.id}`;
+    this.server.to(room).emit('onGroupMessageUpdate', payload);
   }
 }
