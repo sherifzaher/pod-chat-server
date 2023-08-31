@@ -1,11 +1,9 @@
-# PodChat_API
-
-`In Progress don't use it wait for the final version 🙂`
-
-For the Client app you can clone this repo [PodChat_Client](https://www.github.com/sherifzaher/pod-chat-client)
+# Checkout the new monorepo for the full app.
 
 ```bash
-git clone https://github.com/sherifzaher/pod-chat-client.git
+git clone https://github.com/sherifzaher/pod-chat.git
 ```
 
-### _You can wait for the final version. It will be a monorepo codebase contain client + api apps_.
+Or you can visit it here [pod-chat](https://github.com/sherifzaher/pod-chat.git).
+
+I'll not update this repo anymore.
